@@ -82,7 +82,7 @@ class EditUser extends React.Component{
 
               <div className="d-flex justify-content-between my-4">
                 <button type="submit" className="btn btn-primary">Submit</button>
-                <button className="btn btn-danger" onClick={() => {
+                <button type="button" className="btn btn-danger" onClick={() => {
                   localStorage.removeItem("token")
                   this.props.history.push('/')
                 }}

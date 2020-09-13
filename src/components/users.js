@@ -1,33 +1,30 @@
 import React from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class Users extends React.Component {
-  
-  constructor(props){
-    super(props)
-    this.state={
-      users:[]
-    }
-  }
+
   
   componentDidMount(){
-    axios.get('https://reqres.in/api/users')
-    .then(res=>{      
-      let data = res.data.data
-      this.setState({users:data})
-      // console.log(this.state.users)
-      
-    })
-    .catch(err=>{
-      console.log(err.message)
-    })
+    if(this.props.users.length===0){
+      axios.get('https://reqres.in/api/users')
+      .then(res=>{      
+        this.props.update(res.data.data)
+
+      })
+      .catch(err=>{
+        console.log(err.message)
+      })
+
+    }
   }
 
   deleteUser(id){
     axios.delete('https://reqres.in/api/users/'+id)
     .then(res=>{
-      // console.log(res)
+      this.props.delete(id)
+      this.props.history.push("/users")
     })
     .catch(err=>{
       console.log(err)
@@ -58,9 +55,7 @@ class Users extends React.Component {
   }
   
   render() {
-
-      
-    let contents=this.state.users.map(user=>{
+    let contents=this.props.users.map(user=>{
       return (
         <tr key={user.id} className="record">
           <td className="data">{user.id}</td>
@@ -122,4 +117,28 @@ class Users extends React.Component {
   }
 }
 
-export default Users
+const mapStateToProps = (state)=>{
+  return{
+    users:state
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    update: (users) =>{dispatch({
+        type: 'UPDATE',
+        payload: users
+      })
+    },
+    delete:(id) =>{dispatch({
+      type:'DELETE',
+      payload:id
+    })
+
+    }
+  }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users)
+

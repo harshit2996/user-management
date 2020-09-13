@@ -6,17 +6,33 @@ import * as serviceWorker from './serviceWorker';
 import {createStore} from 'redux'
 import { Provider } from 'react-redux'
 
-const initialState={
-  users:{
-    name:'abc'
-  }
-}
-
-
+const initialState = []
 const reducer = (state=initialState,action)=>{
   switch(action.type){
-    case 'UPDATE':
-      return(state=action.payload)
+    case 'UPDATE':      
+      return state=action.payload
+    case 'ADD':
+      return[
+        ...state.splice(state.length,0,action.payload),
+        ...state.slice(action.index)
+      ]
+    case 'EDIT':
+      return[
+        ...state.splice(state.length,0,action.payload),
+        ...state.slice(action.index)
+      ]
+    case 'DELETE':
+      for(let i=0;i<state.length;i++){
+        if(state[i].id===action.payload){
+          console.log(state[i].id)
+          state.splice(i,1)
+          break
+          // console.log(state)
+        }
+      }
+      return state
+      
+      
     default:
       return state
   }
