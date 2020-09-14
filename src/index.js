@@ -44,9 +44,9 @@ const reducer = (state=initialState,action)=>{
 
 const store=createStore(reducer)
 
-store.subscribe(()=>{
-  console.log('updated store', store.getState())
-})
+// store.subscribe(()=>{
+//   console.log('updated store', store.getState())
+// })
 
 
 ReactDOM.render(
