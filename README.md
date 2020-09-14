@@ -1,6 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-
 ## Login Details
 You may login using the existing API credentials - {
     "email": "eve.holt@reqres.in",
