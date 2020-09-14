@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
+
 class EditUser extends React.Component{
   
   constructor(props){
@@ -14,16 +16,16 @@ class EditUser extends React.Component{
   id = this.props.match.params.id
 
   componentDidMount(){
-    axios.get('https://reqres.in/api/users/'+ this.id)
-    .then(res=>{
-      let user=res.data.data
-      this.setState({first_name: user.first_name})
-      this.setState({last_name: user.last_name})
-      this.setState({email: user.email})
-    })
-    .catch(err=>{
-      console.log(err.message)
-    })
+      this.props.users.forEach(c=>{
+        if(c.id===Number(this.id)){
+          this.setState({first_name: c.first_name})
+          this.setState({last_name: c.last_name})
+          this.setState({email: c.email})
+          return
+        }
+      })
+      
+    
   }
 
   handleSubmit = event => {
@@ -37,8 +39,13 @@ class EditUser extends React.Component{
     axios.put('https://reqres.in/api/user/'+this.id, { email: user.email, first_name: user.first_name, last_name: user.last_name })
     .then(
       res=>{
-        console.log(res.data)
+        let user=res.data
+        user=Object.assign({
+          id:Number(this.id)
+        },user)
+        this.props.edit(user)
         this.props.history.push("/users")
+        
       })
     .catch(err=>{
       console.log(err.message)
@@ -100,4 +107,23 @@ class EditUser extends React.Component{
   }
 }
 
-export default EditUser
+
+
+const mapStateToProps = (state)=>{
+  return{
+    users:state
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    edit: (user) =>{dispatch({
+        type: 'EDIT',
+        payload: user
+      })
+    }
+  }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser)

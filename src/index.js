@@ -16,18 +16,22 @@ const reducer = (state=initialState,action)=>{
         ...state.splice(state.length,0,action.payload),
         ...state.slice(action.index)
       ]
-    case 'EDIT':
-      return[
-        ...state.splice(state.length,0,action.payload),
-        ...state.slice(action.index)
-      ]
+    
+      
     case 'DELETE':
       for(let i=0;i<state.length;i++){
         if(state[i].id===action.payload){
           console.log(state[i].id)
           state.splice(i,1)
           break
-          // console.log(state)
+        }
+      }
+      return state
+    case 'EDIT':
+      for(let i=0;i<state.length;i++){
+        if(state[i].id===action.payload.id){
+          state.splice(i,1,action.payload)
+          break
         }
       }
       return state

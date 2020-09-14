@@ -8,18 +8,15 @@ class AddUser extends React.Component{
   first_name=""
   last_name=""
 
-  componentDidMount(){
-    // console.log(this.props)
-  }
-
   handleSubmit = event => {
     event.preventDefault();
 
     axios.post('https://reqres.in/api/users', { email: this.email, first_name: this.first_name, last_name: this.last_name })
     .then(
       res=>{
-        console.log(res.data)
-        this.props.add(res.data)
+        let user=res.data
+        user.id=Number(user.id)
+        this.props.add(user)
 
         this.props.history.push("/users")
       })
@@ -48,18 +45,18 @@ class AddUser extends React.Component{
               <label>
                 First Name:
               </label>
-                <input name="first_name" className="form-control" onChange={this.handleFName} value={this.last_name} required />
+                <input name="first_name" className="form-control" onChange={this.handleFName}  required />
               <br/>
               <label>
                 Last Name:
               </label>
-                <input name="last_name" className="form-control"  onChange={this.handleLName} value={this.first_name} required/>
+                <input name="last_name" className="form-control"  onChange={this.handleLName}  required/>
               </div>
               <div>
                 <label>
                   Email:
                 </label>
-                  <input type="email" className="form-control" name="email" onChange={this.handleEmail} value={this.email} required />
+                  <input type="email" className="form-control" name="email" onChange={this.handleEmail}  required />
     
               </div>
 
