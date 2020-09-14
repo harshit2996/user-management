@@ -63,7 +63,8 @@ class Users extends React.Component {
           <td className="data">{user.email}</td>
           <td><Link to={location => `/edit/${user.id}`}>Edit</Link></td>
           <td><Link to="#" onClick={()=>{
-            this.deleteUser(user.id)
+            if(window.confirm("Are you sure you wish to Delete the User ?")){
+              this.deleteUser(user.id)            }
             }}>Delete</Link></td>
           
         </tr>

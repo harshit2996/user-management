@@ -21,7 +21,7 @@ const reducer = (state=initialState,action)=>{
     case 'DELETE':
       for(let i=0;i<state.length;i++){
         if(state[i].id===action.payload){
-          console.log(state[i].id)
+          // console.log(state[i].id)
           state.splice(i,1)
           break
         }
